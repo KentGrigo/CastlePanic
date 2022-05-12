@@ -140,7 +140,7 @@ class Game {
         println("Round #$roundNumber")
         println()
         board.monsterToBoardPosition.forEach { (monster, boardPosition) ->
-            println("${monster.javaClass.simpleName}: $boardPosition")
+            println("$monster: $boardPosition")
         }
     }
 

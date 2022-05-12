@@ -1,4 +1,13 @@
-sealed class Monster(lives: Int) : Token
+import org.apache.commons.lang3.StringUtils
+
+sealed class Monster(lives: Int) : Token {
+    override fun toString(): String {
+        return StringUtils.join(
+            StringUtils.splitByCharacterTypeCamelCase(this.javaClass.simpleName),
+            ' '
+        )
+    }
+}
 
 class Goblin : Monster(1)
 class Orc : Monster(2)
