@@ -150,7 +150,7 @@ class Game {
         val token = monsterTokens.removeFirst()
         println("Drew: $token")
         when (token) {
-            is GiantBoulder -> Unit // TODO()
+            is GiantBoulder -> board.placeBoulder(BoardPosition(die.roll(), BoardFieldType.FOREST))
             is MonstersMoveClockwise -> board.moveMonstersClockwise()
             is MonstersMoveCounterClockwise -> board.moveMonstersCounterClockwise()
             is MonstersMove -> board.moveMonsters(token.color)

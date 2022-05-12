@@ -30,4 +30,21 @@ data class Board(
             monsterToBoardPosition[monster] = boardPosition.moveCounterClockwise()
         }
     }
+
+    fun placeBoulder(boulderOrigin: BoardPosition) {
+        println("Rolling boulder from $boulderOrigin")
+        var boulderPosition: BoardPosition? = boulderOrigin
+        while (boulderPosition != null) {
+            val killedMonsters = ArrayList<Monster>()
+            for ((monster, monsterPosition) in monsterToBoardPosition.entries) {
+                if (monsterPosition != boulderPosition) continue
+                killedMonsters.add(monster)
+            }
+            for (killedMonster in killedMonsters) {
+                println("Killed $killedMonster at ${monsterToBoardPosition[killedMonster]}")
+                monsterToBoardPosition.remove(killedMonster)
+            }
+            boulderPosition = boulderPosition.moveForward(boulderOrigin)
+        }
+    }
 }
