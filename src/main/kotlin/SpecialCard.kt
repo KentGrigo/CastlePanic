@@ -1,4 +1,13 @@
-sealed class SpecialCard : Card
+import org.apache.commons.lang3.StringUtils
+
+sealed class SpecialCard : Card {
+    override fun toString(): String {
+        return StringUtils.join(
+            StringUtils.splitByCharacterTypeCamelCase(this.javaClass.simpleName),
+            ' '
+        )
+    }
+}
 
 class Brick : SpecialCard()
 class Mortar : SpecialCard()
