@@ -27,8 +27,8 @@ open class Game(
 
         monsterTokens.shuffle()
         cards.shuffle()
-        for (playerNumber in 0 until numberOfPlayers) {
-            val player = Player(handLimit)
+        for (playerNumber in 1..numberOfPlayers) {
+            val player = Player("Player #$playerNumber", handLimit)
             drawCards(player)
             players.add(player)
         }
@@ -78,16 +78,7 @@ open class Game(
             is MonstersMoveClockwise -> board.moveMonstersClockwise()
             is MonstersMoveCounterClockwise -> board.moveMonstersCounterClockwise()
             is MonstersMove -> board.moveMonsters(token.color)
-            is Plague -> {
-                players.forEachIndexed { index, player ->
-                    player.cards.removeAll { card ->
-                        if (card !is Fighter) return@removeAll false
-                        val hasPlague = card.fighterType == token.fighterType
-                        if (hasPlague) println("Player #${index + 1} lost $card because of plague")
-                        hasPlague
-                    }
-                }
-            }
+            is Plague -> players.forEach { player -> player.loseFightersOfType(token.fighterType) }
             is DrawMonsters -> for (monsterCount in 0 until token.drawAmount) {
                 drawMonsterToken()
             }
