@@ -185,7 +185,16 @@ data class Game(
             is MonstersMoveClockwise -> board.moveMonstersClockwise()
             is MonstersMoveCounterClockwise -> board.moveMonstersCounterClockwise()
             is MonstersMove -> board.moveMonsters(token.color)
-            is Plague -> Unit // TODO()
+            is Plague -> {
+                players.forEachIndexed { index, player ->
+                    player.cards.removeAll { card ->
+                        if (card !is Fighter) return@removeAll false
+                        val hasPlague = card.fighterType == token.fighterType
+                        if (hasPlague) println("Player #${index + 1} lost $card because of plague")
+                        hasPlague
+                    }
+                }
+            }
             is DrawMonsters -> for (monsterCount in 0 until token.drawAmount) {
                 drawMonsterToken()
             }

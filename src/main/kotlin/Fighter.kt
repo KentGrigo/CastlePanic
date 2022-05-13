@@ -1,6 +1,6 @@
 import org.apache.commons.lang3.StringUtils
 
-sealed class Fighter(fighterType: FighterType, vararg colors: Color) : Card {
+sealed class Fighter(val fighterType: FighterType, vararg colors: Color) : Card {
     override fun toString(): String {
         return StringUtils.join(
             StringUtils.splitByCharacterTypeCamelCase(this.javaClass.simpleName),
