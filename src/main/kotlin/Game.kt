@@ -79,11 +79,27 @@ open class Game(
             is MonstersMoveCounterClockwise -> board.moveMonstersCounterClockwise()
             is MonstersMove -> board.moveMonsters(token.color)
             is Plague -> players.forEach { player -> player.loseFightersOfType(token.fighterType) }
-            is DrawMonsters -> for (monsterCount in 0 until token.drawAmount) {
+            is DrawMonsters -> for (drawCount in 0 until token.drawAmount) {
                 drawMonsterToken()
             }
             is AllPlayersDiscard -> Unit // TODO()
-            is Monster -> board.placeMonster(token, BoardPosition(die.roll(), BoardFieldType.FOREST))
+            is Monster -> {
+                board.placeMonster(token, BoardPosition(die.roll(), BoardFieldType.FOREST))
+                when (token) {
+                    is OrcWarlord -> {
+                        val color = board.monsterToBoardPosition[token]!!.fieldColor()
+                        board.moveMonsters(color)
+                    }
+                    is GoblinKing -> for (drawCount in 0 until 3) {
+                        drawMonsterToken()
+                    }
+                    is Healer -> board.monsterToBoardPosition.keys.forEach { monster ->
+                        monster.heal()
+                    }
+                    is TrollMage -> board.moveMonsters()
+                    else -> {}
+                }
+            }
         }
     }
 

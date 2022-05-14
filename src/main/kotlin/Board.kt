@@ -13,7 +13,7 @@ data class Board(
 
     fun moveMonsters(color: Color) {
         monsterToBoardPosition.forEach { (monster, boardPosition) ->
-            if (color == boardPosition.fieldNumberToColor()) {
+            if (color == boardPosition.fieldColor()) {
                 monsterToBoardPosition[monster] = boardPosition.moveInwards()
             }
         }

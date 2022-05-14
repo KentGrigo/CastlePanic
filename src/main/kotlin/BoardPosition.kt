@@ -49,7 +49,7 @@ data class BoardPosition(
         return "$fieldNumber $fieldType"
     }
 
-    fun fieldNumberToColor() =
+    fun fieldColor() =
         when (fieldNumber) {
             1, 2 -> Color.RED
             3, 4 -> Color.GREEN

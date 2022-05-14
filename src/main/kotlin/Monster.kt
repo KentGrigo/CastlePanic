@@ -1,6 +1,14 @@
 import org.apache.commons.lang3.StringUtils
+import kotlin.math.min
 
-sealed class Monster(lives: Int) : Token {
+sealed class Monster(
+    private val maxNumberOfLives: Int,
+    var currentNumberOfLives: Int = maxNumberOfLives,
+) : Token {
+    fun heal() {
+        currentNumberOfLives = min(currentNumberOfLives + 1, maxNumberOfLives)
+    }
+
     override fun toString(): String {
         return StringUtils.join(
             StringUtils.splitByCharacterTypeCamelCase(this.javaClass.simpleName),
