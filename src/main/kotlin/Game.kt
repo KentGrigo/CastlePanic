@@ -38,9 +38,9 @@ open class Game(
         while (true) {
             roundNumber++
             playerTurnIndex = (playerTurnIndex + 1) % numberOfPlayers
-            print(roundNumber, playerTurnIndex)
-
             val player = players[playerTurnIndex]
+            print(roundNumber, player)
+
             drawCards(player)
             board.moveMonsters()
             for (newMonsterNumber in 1..2) {
@@ -49,14 +49,14 @@ open class Game(
         }
     }
 
-    private fun print(roundNumber: Int, playerTurnIndex: Int) {
+    private fun print(roundNumber: Int, currentPlayer: Player) {
         println()
         println("===============")
-        println("Round #$roundNumber: Player #${playerTurnIndex + 1}")
+        println("Round #$roundNumber: ${currentPlayer.name}")
 
-        players.forEachIndexed { index, player ->
+        players.forEach { player ->
             println()
-            println("Cards of player #${index + 1}")
+            println("Cards of ${player.name}")
             for (card in player.cards) {
                 println(card)
             }
