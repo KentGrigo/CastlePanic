@@ -24,6 +24,9 @@ open class Game(
         startingMonsters.forEachIndexed { index, monster ->
             board.placeMonster(monster, BoardPosition(index + 1, BoardFieldType.ARCHER))
         }
+        for (fieldNumber in 1..6) {
+            board.placeDefense(BoardPosition(fieldNumber, BoardFieldType.CASTLE))
+        }
 
         monsterTokens.shuffle()
         cards.shuffle()
@@ -41,10 +44,26 @@ open class Game(
             val player = players[playerTurnIndex]
             print(roundNumber, player)
 
+            println()
+            println("Drawing cards")
             drawCards(player)
+
+            println()
+            println("Moving monsters")
             board.moveMonsters()
+            if (!board.hasDefense()) {
+                println("Game over!")
+                break
+            }
+
+            println()
+            println("Drawing monster tokens")
             for (newMonsterNumber in 1..2) {
                 drawMonsterToken()
+            }
+            if (!board.hasDefense()) {
+                println("Game over!")
+                break
             }
         }
     }
@@ -53,6 +72,12 @@ open class Game(
         println()
         println("===============")
         println("Round #$roundNumber: ${currentPlayer.name}")
+
+        println()
+        println("Defense")
+        board.boardPositionToDefense.forEach { (boardPosition, defense) ->
+            println("$defense: $boardPosition")
+        }
 
         players.forEach { player ->
             println()
@@ -105,7 +130,9 @@ open class Game(
 
     private fun drawCards(player: Player) {
         while (cards.isNotEmpty() && player.cards.size < handLimit) {
-            player.receiveCard(cards.removeFirst())
+            val card = cards.removeFirst()
+            println("Drew: $card")
+            player.receiveCard(card)
         }
     }
 }

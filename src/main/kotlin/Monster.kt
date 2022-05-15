@@ -1,10 +1,15 @@
 import org.apache.commons.lang3.StringUtils
+import kotlin.math.max
 import kotlin.math.min
 
 sealed class Monster(
     private val maxNumberOfLives: Int,
     var currentNumberOfLives: Int = maxNumberOfLives,
 ) : Token {
+    fun damage() {
+        currentNumberOfLives = max(0, currentNumberOfLives - 1)
+    }
+
     fun heal() {
         currentNumberOfLives = min(currentNumberOfLives + 1, maxNumberOfLives)
     }
@@ -13,7 +18,7 @@ sealed class Monster(
         return StringUtils.join(
             StringUtils.splitByCharacterTypeCamelCase(this.javaClass.simpleName),
             ' '
-        )
+        ) + " ($currentNumberOfLives/$maxNumberOfLives)"
     }
 }
 

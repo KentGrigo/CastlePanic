@@ -2,6 +2,10 @@ data class BoardPosition(
     val fieldNumber: Int,
     val fieldType: BoardFieldType,
 ) {
+    init {
+        require(fieldNumber in 1..6)
+    }
+
     // This method is used for boulders, rolling straight.
     fun moveForward(origin: BoardPosition) =
         if (fieldNumber == origin.fieldNumber) {
@@ -10,9 +14,7 @@ data class BoardPosition(
                 BoardFieldType.FOREST -> BoardPosition(fieldNumber, BoardFieldType.ARCHER)
                 BoardFieldType.ARCHER -> BoardPosition(fieldNumber, BoardFieldType.KNIGHT)
                 BoardFieldType.KNIGHT -> BoardPosition(fieldNumber, BoardFieldType.SWORDSMAN)
-                // TODO: Check for barricades and towers
                 BoardFieldType.SWORDSMAN -> BoardPosition(fieldNumber, BoardFieldType.CASTLE)
-                // TODO: Check for towers
                 BoardFieldType.CASTLE -> BoardPosition((fieldNumber + 2) % 6 + 1, BoardFieldType.CASTLE)
             }
         } else {
@@ -22,7 +24,6 @@ data class BoardPosition(
                 BoardFieldType.ARCHER -> BoardPosition(fieldNumber, BoardFieldType.FOREST)
                 BoardFieldType.KNIGHT -> BoardPosition(fieldNumber, BoardFieldType.ARCHER)
                 BoardFieldType.SWORDSMAN -> BoardPosition(fieldNumber, BoardFieldType.KNIGHT)
-                // TODO: Check for barricades
                 BoardFieldType.CASTLE -> BoardPosition(fieldNumber, BoardFieldType.SWORDSMAN)
             }
         }
@@ -33,9 +34,7 @@ data class BoardPosition(
             BoardFieldType.FOREST -> BoardPosition(fieldNumber, BoardFieldType.ARCHER)
             BoardFieldType.ARCHER -> BoardPosition(fieldNumber, BoardFieldType.KNIGHT)
             BoardFieldType.KNIGHT -> BoardPosition(fieldNumber, BoardFieldType.SWORDSMAN)
-            // TODO: Check for barricades and towers
             BoardFieldType.SWORDSMAN -> BoardPosition(fieldNumber, BoardFieldType.CASTLE)
-            // TODO: Check for towers
             BoardFieldType.CASTLE -> BoardPosition(fieldNumber % 6 + 1, BoardFieldType.CASTLE)
         }
 
