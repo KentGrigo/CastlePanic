@@ -20,6 +20,11 @@ open class Game(
     }
 
     fun play() {
+        setupBoard()
+        gameLoop()
+    }
+
+    private fun setupBoard() {
         startingMonsters.shuffle()
         startingMonsters.forEachIndexed { index, monster ->
             board.placeMonster(monster, BoardPosition(index + 1, BoardFieldType.ARCHER))
@@ -35,7 +40,9 @@ open class Game(
             drawCards(player)
             players.add(player)
         }
+    }
 
+    private fun gameLoop() {
         var roundNumber = 0
         var playerTurnIndex = -1
         while (true) {
@@ -53,7 +60,7 @@ open class Game(
             board.moveMonsters()
             if (!board.hasDefense()) {
                 println("Game over!")
-                break
+                return
             }
 
             println()
@@ -63,7 +70,7 @@ open class Game(
             }
             if (!board.hasDefense()) {
                 println("Game over!")
-                break
+                return
             }
         }
     }
