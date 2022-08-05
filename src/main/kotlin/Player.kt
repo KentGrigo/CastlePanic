@@ -1,7 +1,7 @@
-data class Player(
-    val name: String,
-    val handLimit: Int,
-    val cards: MutableList<Card> = ArrayList(),
+abstract class Player(
+    open val name: String,
+    open val handLimit: Int,
+    open val cards: MutableList<Card> = ArrayList(),
 ) {
     fun receiveCard(card: Card) {
         cards.add(card)
@@ -15,4 +15,6 @@ data class Player(
             hasPlague
         }
     }
+
+    abstract fun action(): PlayerAction
 }

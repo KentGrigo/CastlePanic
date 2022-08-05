@@ -1,11 +1,11 @@
 import org.apache.commons.lang3.StringUtils
 
-sealed class Fighter(val fighterType: FighterType, vararg colors: Color) : Card {
+sealed class Fighter(val fighterType: FighterType, private vararg val colors: Color) : Card {
     override fun toString(): String {
         return StringUtils.join(
             StringUtils.splitByCharacterTypeCamelCase(this.javaClass.simpleName),
             ' '
-        )
+        ) + " " + this.colors.map { it.name }
     }
 }
 
